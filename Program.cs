@@ -100,12 +100,16 @@ namespace PartSconner {
       partS.SendTimeout = 2000;
       partS.ReceiveTimeout = 2000;
       IAsyncResult result = partS.BeginConnect(txtIPaddress, port, null, null);
+      //timeouts take 10-12 seconds, this forces that timeout to stop after 2000ms
       bool success = result.AsyncWaitHandle.WaitOne(2000, true);
       if (success && partS.Connected) {
+        //didn't timeout and got connected - Open
         Console.WriteLine(txtIPaddress + ":" + port + " open!!!");
       } else if (success && allData && !partS.Connected) {
+        //didn't timeout but couldn't connect, and want to show non-open - Blocked
         Console.WriteLine(txtIPaddress + ":" + port + " blocked.");
       } else if (!success && allData) {
+        //timed out response and want to show non-open - Timed out
         Console.WriteLine(txtIPaddress + ":" + port + " timed out.");
       }
       partS.Close();
