@@ -16,6 +16,11 @@ namespace PartSconner {
       int time = 0;
       int offset = 0;
 
+      if (args.Length == 0) {
+        showHelp();
+        Environment.Exit(0);
+      }
+
       try {//host and time
         time = Math.Abs(Convert.ToInt32(args[0]));
         offset = 1;
